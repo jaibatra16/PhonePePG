@@ -2,17 +2,111 @@
 <html>
 
 <head>
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <script type = "text/javascript" src="index.js"></script>
       <script type="text/javascript" src="https://unpkg.com/axios@1.4.0/dist/axios.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.10.1/sha256.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+      <title>TEST PAY API</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
    </head>
 
 <body>
+   <div class="jumbotron text-center">
+   <h2>TEST PG INTEGRATION</h2>
+    </div>
 
-<input type="number" id="myText" value="enter amount">
+    <form class="needs-validation" novalidate>
 
-<button onclick="callPayapi()">Pay</button>
+    
+    <div class="row">
+      <div class="col-lg-4 text-center" >
+         <h5>Choose Environment</h5>
+         <input type="radio" id="prod" name="environment" value="PROD">
+         <label for="prod">PROD</label>
+         <input type="radio" id="uat" name="environment" value="UAT">
+         <label for="uat">UAT</label>
+      </div>
+      <div class="col-lg-4">
 
+         <h6>Enter the Merchant ID</h6>
+         <input type="text" id="mid" value="PGTESTPAYUAT">
+
+         <h6>Enter the merchantTransactionID</h6>
+         <input type="text" id="mTid" value="MT7850590068188104">
+
+         <h6>Enter the merchantUserID</h6>
+         <input type="text" id="mUid" value="MUID123">
+
+         <h6>Enter the Amount</h6>
+         <input type="number" id="myText" value="">
+
+         <h6>Enter the Redirect URL</h6>
+         <input type="text" id="redirect" value="https://webhook.site/redirect-url">
+
+         <h6>Enter the Redirect Mode</h6>
+         <input type="text" id="mode" value="REDIRECT">
+
+         <h6>Enter the Callback URL</h6>
+         <input type="text" id="callback" value="https://webhook.site/callback-url">
+
+         <h6>Enter the Mobile Number</h6>
+         <input type="text" id="mobile" value="9999999999">
+
+         <button onclick="printBase64()" type="button" class="btn btn-info">Validate Base64</button><br><br>
+          
+          
+      </div>
+      <div class="col-lg-4">
+         <h6>Enter the Salt key</h6>
+         <input type="text" id="salt" value="099eb0cd-02cf-4e2a-8aca-3e6c6aff0399">
+         
+         <h6>Enter the Key index</h6>
+         <input type="number" id="index" value="1">
+         <button onclick="printXverify()" type="button" class="btn btn-info">Validate X-VERIFY</button> <br><br>
+
+         <div class="card col-lg-12 text-center" style="width: 30rem;">
+            <div class="card-body">
+              <p id="xverify" class="card-text"></p>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    
+
+    <div id="pay-section"> 
+
+</div>
+
+<br>
+
+<div class="row">
+
+   <div class="card col-lg-12 text-center" style="width: 60rem;">
+      <div class="card-body">
+        <p id="base64" class="card-text"></p>
+      </div>
+    </div>
+
+</div>
+
+
+<br>
+<div class="row">
+
+   <div class="col-lg-12 text-center" >
+      <button onclick="callPayapi()" type="button" class="btn btn-success">     Initiate Payment      </button>
+   </div>
+
+</div>
+
+</form>
 
 </body>
 </html>
