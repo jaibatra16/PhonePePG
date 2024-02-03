@@ -3,15 +3,45 @@
         
       var amount = document.getElementById("myText").value;
 
-      var payload = requestPayload(amount);
+      var saltkey = document.getElementById("salt").value;
 
-      var finalHeaders = requestHeaders(payload);
+      var index = document.getElementById("index").value;
 
-      var url = '';
+      var merchantId = document.getElementById("mid").value;
+
+      var mTid = document.getElementById("mTid").value;
+
+      var mUid = document.getElementById("mUid").value;
+
+      var redirectUrl = document.getElementById("redirect").value;
+
+      var redirectMode = document.getElementById("mode").value;
+
+      var callbackUrl = document.getElementById("callback").value;
+
+      var mobileNumber = document.getElementById("mobile").value;
+      
+      var payload = requestPayload(amount, merchantId, mTid, mUid, redirectUrl, redirectMode, callbackUrl, mobileNumber);
+
+      var finalHeaders = requestHeaders(payload, saltkey, index);
+
+      const prodUrl = 'https://api.phonepe.com/apis/hermes/pg/v1/pay';
+
+      const uatUrl = 'https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay';
+
+      var environmentSelected = '';
+
+      if (document.getElementById('prod').checked) {
+        environmentSelected = prodUrl;
+      }
+      
+      if (document.getElementById('uat').checked) {
+        environmentSelected = uatUrl;
+      }
        
       const options = {
         method:  'post',
-        url: 'https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay',
+        url: environmentSelected,
         headers: finalHeaders,
            data: {request : payload}
           };
@@ -28,17 +58,17 @@
               });
 }
 
-let requestPayload = (amount) => {
+let requestPayload = (amount, merID, mTid, mUid, redirectUrl, redirectMode, callbackUrl, mobileNumber) => {
 
 var jsonPayload = {
-  merchantId: "PGTESTPAYUAT",
-  merchantTransactionId: "MT7850590068188104",
-  merchantUserId: "MUID123",
+  merchantId: merID,
+  merchantTransactionId: mTid,
+  merchantUserId: mUid,
   amount: Number(amount*100),
-  redirectUrl: "https://webhook.site/redirect-url",
-  redirectMode: "REDIRECT",
-  callbackUrl: "https://webhook.site/callback-url",
-  mobileNumber: "9999999999",
+  redirectUrl: redirectUrl,
+  redirectMode: redirectMode,
+  callbackUrl: callbackUrl,
+  mobileNumber: mobileNumber,
   paymentInstrument: {
     type: "PAY_PAGE"
   }
@@ -52,24 +82,76 @@ return objJsonB64;
 
 }
 
-let requestHeaders = (objJsonB64) => {
-var endpoint = '/pg/v1/pay';
-var string2 = '###';
-var salt = '099eb0cd-02cf-4e2a-8aca-3e6c6aff0399';
+let requestHeaders = (objJsonB64, salt, index) => {
 
-var input = objJsonB64 + endpoint + salt; //concatenating the values
+var finalxVerify = buildXverify(index, salt, objJsonB64);
 
-var xVerify = sha256(input); //conversion to sha 256
+console.log (finalxVerify);
 
-var finalxVerify = xVerify + string2 + '1'; //final checksum
- 
 var header = {
     accept: 'application/json',
  'Content-Type' : 'application/json' ,
  'X-VERIFY' : finalxVerify
     };
 
-
 return header;
 
+}
+
+
+let buildXverify = (index, salt, objJsonB64) => {
+var endpoint = '/pg/v1/pay';
+var string2 = '###';
+var input = objJsonB64 + endpoint + salt; //concatenating the values
+var xVerify = sha256(input); //conversion to sha 256
+var finalxVerify = xVerify + string2 + index; //final checksum
+return finalxVerify;
+
+}
+ 
+
+let printXverify = () => {
+
+  var amount = document.getElementById("myText").value;
+
+  var salt = document.getElementById("salt").value;
+
+  var index = document.getElementById("index").value;
+
+  var merID = document.getElementById("mid").value;
+
+  var mTid = document.getElementById("mTid").value;
+
+  var payload = requestPayload(amount, merID, mTid);
+
+  var finalxVerify = buildXverify(index, salt, payload);
+
+
+  console.log(finalxVerify);
+  document.getElementById('xverify').innerHTML = finalxVerify;
+}
+
+
+let printBase64 = () => {
+
+  var amount = document.getElementById("myText").value;
+
+  var merchantId = document.getElementById("mid").value;
+
+  var mTid = document.getElementById("mTid").value;
+
+  var mUid = document.getElementById("mUid").value;
+
+  var redirectUrl = document.getElementById("redirect").value;
+
+  var redirectMode = document.getElementById("mode").value;
+
+  var callbackUrl = document.getElementById("callback").value;
+
+  var mobileNumber = document.getElementById("mobile").value;
+
+  var payload = requestPayload(amount, merchantId, mTid, mUid, redirectUrl, redirectMode, callbackUrl, mobileNumber);
+
+  console.log(payload);
+  document.getElementById('base64').innerHTML = payload;
 }
