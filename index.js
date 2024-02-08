@@ -7,7 +7,7 @@
 
       var index = document.getElementById("index").value;
 
-      var merchantId = document.getElementById("mid").value;
+      var merId = document.getElementById("mid").value;
 
       var mTid = document.getElementById("mTid").value;
 
@@ -21,7 +21,7 @@
 
       var mobileNumber = document.getElementById("mobile").value;
       
-      var payload = requestPayload(amount, merchantId, mTid, mUid, redirectUrl, redirectMode, callbackUrl, mobileNumber);
+      var payload = requestPayload(amount, merId, mTid, mUid, redirectUrl, redirectMode, callbackUrl, mobileNumber);
 
       var finalHeaders = requestHeaders(payload, saltkey, index);
 
@@ -58,10 +58,10 @@
               });
 }
 
-let requestPayload = (amount, merID, mTid, mUid, redirectUrl, redirectMode, callbackUrl, mobileNumber) => {
+let requestPayload = (amount, merId, mTid, mUid, redirectUrl, redirectMode, callbackUrl, mobileNumber) => {
 
 var jsonPayload = {
-  merchantId: merchantId,
+  merchantId: merId,
   merchantTransactionId: mTid,
   merchantUserId: mUid,
   amount: Number(amount*100),
@@ -150,7 +150,7 @@ let printBase64 = () => {
 
   var mobileNumber = document.getElementById("mobile").value;
 
-  var payload = requestPayload(amount, merchantId, mTid, mUid, redirectUrl, redirectMode, callbackUrl, mobileNumber);
+  var payload = requestPayload(amount, merId, mTid, mUid, redirectUrl, redirectMode, callbackUrl, mobileNumber);
 
   console.log(payload);
   document.getElementById('base64').innerHTML = payload;
