@@ -61,7 +61,7 @@
 let requestPayload = (amount, merID, mTid, mUid, redirectUrl, redirectMode, callbackUrl, mobileNumber) => {
 
 var jsonPayload = {
-  merchantId: merID,
+  merchantId: merchantId,
   merchantTransactionId: mTid,
   merchantUserId: mUid,
   amount: Number(amount*100),
