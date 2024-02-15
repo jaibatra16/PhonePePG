@@ -93,7 +93,7 @@ var header = {
  'Content-Type' : 'application/json' ,
  'X-VERIFY' : finalxVerify
     };
-
+console.log(finalxVerify);
 return header;
 
 }
