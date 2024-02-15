@@ -150,7 +150,7 @@ let printBase64 = () => {
 
   var mobileNumber = document.getElementById("mobile").value;
 
-  var payload = requestPayload(amount, merId, mTid, mUid, redirectUrl, redirectMode, callbackUrl, mobileNumber);
+  var payload = requestPayload(amount, merID, mTid, mUid, redirectUrl, redirectMode, callbackUrl, mobileNumber);
 
   console.log(payload);
   document.getElementById('base64').innerHTML = payload;
